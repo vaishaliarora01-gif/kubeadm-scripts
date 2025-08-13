@@ -6,3 +6,115 @@ sudo kubeadm token create --print-join-command
 #label nodes
 5.) kubectl label node ip-172-31-44-99 node-role.kubernetes.io/worker="worker1"
 
+-------------------------------------------------------------------------
+
+To setup k8s cluster:
+1.) Container runtime engine is needed on all the nodes[master and worker]. It actually runs our containers.
+K8s does not run but tell these engines to run the containers.
+ex:- docker engie,CRI-o engine;containerd
+
+2.) kubeadm (on all nodes): CLI tool provided by k8s to bootstrap(setup) a cluster.
+Instead of manuall generating certificates,starting components,configs,kubeadm automates the process.
+On control nodes:- kubeadm init setup [all 4 components].
+On worker node :- kubeadm join connects them to control plane.
+Installed on all nodes so that they can join the cluster.
+
+3.) kubectl :- is a cli which can access whole cluster through local system.
+
+4.) kubelet:- is a building block of k8s which will be installed on every node(both master and worker) .Its a nnode level agent talk to api server about:-
+Ask CRI to start/stop contaier; Manage pod lifecycle; Watching APi for pod defn;Reporting node status to control plane.
+
+
+Disabling swap now and forever means: not allowing because their are chances when RAM is full OS might send parts of memory to disk. This would create problems with pods.
+To avoid such issues better to swap off.
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.) kubectl get pods// no app. running or resources running
+2.) kubectl get namespaces//when cluster was created
+3.)kubectl get pods -n kube-system 
+4.) kubectl get nodes
+5.) kubectl get pods -o wide
+6.) kubectl get pods -n kube-system -o wide
+7.) vi demo.yaml   #write manifest file
+#Deploying app as pods
+apiVersion: v1
+kind: Pod
+metadata:
+   name: webapp  #name of the pod
+spec:
+   containers: 
+   - name: myapp
+     image: nginx
+	 ports:
+	 - containerPort: 80
+8.) kubectl apply -f demo.yaml
+#pod is created
+9.) kubectl get pods
+10.) vi demo.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+   name: webapp  #name of the pod
+spec:
+   containers: 
+   - name: myapp
+     image: nginx
+	 ports:
+	 - containerPort: 80
+   - name: tom
+     image: tomcat
+	 ports:
+	 - containerPort: 8080
+#multiple containers
+11.) kubectl apply -f demo.yaml
+12.) kubectl get pods
+13.) kubectl describe po webapp
+14.) docker run --name=mymachine -d ubuntu
+15.) docker container ls
+16.) docker container ls -a
+17.) docker run --name mymachine -d ubuntu sleep 30
+18.) docker container ls
+19.) docker container ls -a
+20.) test.yaml
+apiVersion: v1
+kind: Pod
+metadata: 
+    name: webapp #name of the pod
+spec:
+   containers:
+   - name: myapp
+     image: ubuntu
+	 command:
+	   - sleep
+	 args:
+	   - "40"
+21.) kubectl apply -f test.yaml
+22.) kubectl delete -f test.yaml
+23.) kubectl logs whatsapp
+24.) 
+
+ 
