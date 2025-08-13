@@ -1,0 +1,8 @@
+#1.)Steps after running master.sh and common.sh
+sudo kubeadm token create --print-join-command
+#result u get run on all worker nodes.
+3.) kubectl get nodes
+4.) kubectl get pods
+#label nodes
+5.) kubectl label node ip-172-31-44-99 node-role.kubernetes.io/worker="worker1"
+
